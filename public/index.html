@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket server</title>
+</head>
+
+<body>
+  <h2>Acceso denegado</h2>
+
+  <script src="socket.io/socket.io.js"></script>
+
+  <script defer>
+      let socket = io();
+      socket.on('connect', () => {
+        console.log('Conectado al servidor');
+      });
+      
+      socket.emit('message', {
+        clienId: socket.id,
+        user: 'Luis Angel',
+        message: 'This is a advanced flutter course'
+      });
+
+      socket.on('message', (payload) => {
+        console.log('Server response: ', payload);
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Desconectado del servidor');
+      });
+
+      socket.on('new-message', (payload) => {
+        console.log('New message: ', payload);
+      });
+
+      socket.on('active-bands', (bands) => {
+        console.clear();
+        console.table(bands);
+      });
+  </script>
+</body>
+
+</html>
