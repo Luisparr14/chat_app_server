@@ -77,7 +77,27 @@ const Login = async (req, res) => {
   }
 };
 
+const RenewToken = async (req, res) => {
+  try {
+    const { uid } = req;
+    const token = await generateJWT(uid);
+
+    res.status(200).send({
+      ok: true,
+      message: 'Token renewed successfully',
+      token
+    });
+  } catch (error) {
+    res.status(500).send({
+      ok: false,
+      message: 'Error renewing token',
+      error,
+    });
+  }
+};
+
 module.exports = {
   Register,
   Login,
+  RenewToken,
 };
