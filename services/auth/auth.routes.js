@@ -1,10 +1,11 @@
 const { Router } = require('express');
-const { Register } = require('./auth.controller');
-const { authMiddleware } = require('../../middlewares/authMiddleware');
+const { Register, Login } = require('./auth.controller');
+const { RegisterMiddlewares, LoginMiddlewares } = require('../../middlewares/authMiddleware');
 const { checkErros } = require('../../middlewares/customMiddlewares');
 const authRouter = Router();
 
-authRouter.post('/register',[ authMiddleware ,checkErros ], Register);
+authRouter.post('/register',[ RegisterMiddlewares ,checkErros ], Register);
+authRouter.post('/login', [LoginMiddlewares, checkErros], Login);
 
 module.exports = {
   authRouter

@@ -1,4 +1,4 @@
-const { hashSync, genSalt, genSaltSync } = require('bcryptjs');
+const { hashSync, genSaltSync, compareSync } = require('bcryptjs');
 
 const genSaltUtil = (rounds) => genSaltSync(rounds);
 
@@ -7,7 +7,12 @@ const encryptPassword = (password) => {
   return hashSync(password, salt);
 }
 
+const comparePassword = (password, hash) => {
+  return compareSync(password, hash);
+}
+
 module.exports = {
   genSaltUtil,
-  encryptPassword
+  encryptPassword,
+  comparePassword
 }
