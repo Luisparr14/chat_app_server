@@ -28,6 +28,7 @@ app.set('port', process.env.PORT || 3000)
 const publicPath = path.resolve(__dirname, 'public')
 app.use(express.static(publicPath))
 app.use(logger('dev'))
+app.use(express.json())
 
 // Add routes to app
 app.use('/api', routes)
