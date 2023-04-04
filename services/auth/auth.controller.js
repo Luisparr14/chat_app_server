@@ -1,11 +1,12 @@
 const User = require('../../models/user.model');
+const { encryptPassword } = require('../../utils/bcrypt');
 
 const Register = async (req, res) => {
   try {
 
-    const { email } = req.body;
+    const { name, email, password } = req.body;
 
-    const emailExists = User.findOne({ email });
+    const emailExists = await User.findOne({ email });
 
     if (emailExists) {
       return res.status(400).send({
@@ -14,7 +15,12 @@ const Register = async (req, res) => {
       });
     }
 
-    const user = new User(req.body);
+    const user = new User({
+      name,
+      email,
+      password: encryptPassword(password),
+    });
+
     await user.save();
 
     res.status(201).send({
