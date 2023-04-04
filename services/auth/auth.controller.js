@@ -81,10 +81,11 @@ const RenewToken = async (req, res) => {
   try {
     const { uid } = req;
     const token = await generateJWT(uid);
+    const user = await User.findById(uid);
 
     res.status(200).send({
       ok: true,
-      message: 'Token renewed successfully',
+      user,
       token
     });
   } catch (error) {
