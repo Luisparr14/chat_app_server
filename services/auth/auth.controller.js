@@ -1,5 +1,6 @@
 const User = require('../../models/user.model');
 const { encryptPassword } = require('../../utils/bcrypt');
+const { generateJWT } = require('../../utils/jwt');
 
 const Register = async (req, res) => {
   try {
@@ -21,12 +22,14 @@ const Register = async (req, res) => {
       password: encryptPassword(password),
     });
 
+    const token = await generateJWT(user.id)
+    
     await user.save();
-
     res.status(201).send({
       ok: true,
       message: 'User created successfully',
       user,
+      token
     });
   } catch (error) {
     res.status(500).send({
