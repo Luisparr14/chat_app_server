@@ -1,10 +1,16 @@
-const Login = async (_, res) => {
-  res.json({
+const User = require('../../models/user.model');
+
+const Register = async (req, res) => {
+
+  await User.create(req.body);
+
+  res.status(201).json({
     ok: true,
-    msg: 'Login',
+    msg: 'User created',
+    user: req.body,
   });
 };
 
 module.exports = {
-  Login,
+  Register,
 };
