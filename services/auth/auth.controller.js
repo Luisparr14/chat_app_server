@@ -86,6 +86,7 @@ const RenewToken = async (req, res) => {
     res.status(200).send({
       ok: true,
       user,
+      message: 'Token renewed successfully',
       token
     });
   } catch (error) {

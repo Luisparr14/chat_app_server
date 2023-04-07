@@ -2,7 +2,6 @@ const { verifyJWT } = require('../utils/jwt');
 
 const checkJWT = (req, res, next) => {
   const token = req.header('x-token');
-
   if (!token) {
     return res.status(401).send({
       ok: false,
@@ -11,15 +10,19 @@ const checkJWT = (req, res, next) => {
   }
 
   try {
-    const tokenDecoded = verifyJWT(token);
-    req.uid = tokenDecoded.uid;
-
+    const { uid, valid } = verifyJWT(token);
+    if (!valid) {
+      return res.status(401).send({
+        ok: false,
+        message: 'Invalid token',
+      });
+    }
+    req.uid = uid;
     next();
   } catch (error) {
-    console.log(error);
-    return res.status(401).send({
+    return res.status(500).send({
       ok: false,
-      message: 'Invalid token',
+      message: 'Something went wrong',
     });
   }
 }
