@@ -1,3 +1,4 @@
+const { connectedUser, disconnectedUser } = require("../services/sockets/sockets.controller")
 const { verifyJWT } = require("../utils/jwt")
 
 const socket = (io = io) => {
@@ -8,9 +9,11 @@ const socket = (io = io) => {
 
     if (!valid) return client.disconnect()
     console.log(`Client authenticated...`, uid)
-
+    connectedUser(uid)
+    
     client.on('disconnect', () => {
       console.log(`Client disconnected...`)
+      disconnectedUser(uid)
     })
   })
 }
