@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const { comparePassword } = require('../utils/bcrypt');
 
 const MessageSchema = Schema({
   from: {

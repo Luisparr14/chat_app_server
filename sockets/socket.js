@@ -1,4 +1,4 @@
-const { connectedUser, disconnectedUser } = require("../services/sockets/sockets.controller")
+const { connectedUser, disconnectedUser, saveMessage } = require("../services/sockets/sockets.controller")
 const { verifyJWT } = require("../utils/jwt")
 
 const socket = (io) => {
@@ -12,7 +12,8 @@ const socket = (io) => {
     console.log(`Client authenticated...`)
     connectedUser(uid)
     
-    client.on('personal-message', (payload) => {
+    client.on('personal-message', async (payload) => {
+      await saveMessage(payload)
       io.to(payload.to).emit('personal-message', payload)
     })
 
