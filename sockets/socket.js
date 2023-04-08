@@ -9,11 +9,10 @@ const socket = (io) => {
 
     if (!valid) return client.disconnect()
     client.join(uid)
-    console.log(`Client authenticated...`, uid)
+    console.log(`Client authenticated...`)
     connectedUser(uid)
     
     client.on('personal-message', (payload) => {
-      console.log('Personal message', payload)
       io.to(payload.to).emit('personal-message', payload)
     })
 
